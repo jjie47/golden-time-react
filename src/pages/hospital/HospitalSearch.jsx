@@ -72,7 +72,7 @@ const HospitalSearch = ({ selectedRegion, onRegionChange, onSearch })=>{
                         type="search"
                         id="keyword"
                         name="keyword"
-                        placeholder="병원명 검색"
+                        placeholder="병원종류, 병원명 검색"
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
                     />

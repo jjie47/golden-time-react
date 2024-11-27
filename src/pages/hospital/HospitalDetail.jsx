@@ -20,7 +20,7 @@ const HospitalDetail = ({ isDetailOpen, selectedHospital, onClose, getFormattedT
     };
 
     
-    console.log(selectedHospital.dutyDivNam, selectedHospital.dutyName);
+    // console.log(selectedHospital.dutyDivNam, selectedHospital.dutyName);
 
 
     return (

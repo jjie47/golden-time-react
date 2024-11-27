@@ -39,7 +39,7 @@ const Hospital = ()=>{
             const { sido, sigungu } = region;
             const QN = searchKeyword.trim();
             const pageNo = 1;
-            const numOfRows = 20;
+            const numOfRows = 10;
  
             try {
                 // axios를 사용하여 데이터 호출
@@ -248,7 +248,12 @@ const Hospital = ()=>{
                     </div>
 
                     {/* 오른쪽 지도 */}
-                    <HospitalMap />
+                    <HospitalMap 
+                        region={region} 
+                        setRegion={setRegion} 
+                        hospitalData={hospitalData}
+                        handleOpenDetail={handleOpenDetail}
+                    />
 
                 </div>
 
