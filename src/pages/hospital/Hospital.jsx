@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { images } from '../../utils/images';
-import * as regions from '../../constants/regions';
+// import * as regions from '../../constants/regions';
 import axios from 'axios';
-import { XMLParser } from "fast-xml-parser";
+// import { XMLParser } from "fast-xml-parser";
 import HospitalSearch from "./HospitalSearch";
 import HospitalDetail from "./HospitalDetail";
 import HospitalMap from "./HospitalMap.jsx";
@@ -24,9 +24,11 @@ const Hospital = ()=>{
     const [selectedHospital, setSelectedHospital] = useState("병원 미선택");
     
     // 병원리스트에서 응급실정보
-    const emergencyRef = useRef([]);
+    const emergencyRef = useRef([]); 
     // 병원리스트에서 병원 분류명
     const classificationRef = useRef([]);
+    // 리스트 스크롤 초기화
+    const ulRef = useRef(null);
 
 
 
@@ -35,16 +37,24 @@ const Hospital = ()=>{
         const fetchHospitalData = async () => {
             // 공공데이터 API URL과 API 키 설정
             const apiUrl = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
-            const apiKey = process.env.REACT_APP_SERVICE_KEY;
+            const apiKey = process.env.REACT_APP_DATA_SERVICE_KEY;
             const { sido, sigungu } = region;
             const QN = searchKeyword.trim();
             const pageNo = 1;
             const numOfRows = 10;
  
             try {
+                let newSido = sido;
+                let newSigungu = sigungu;
+
+                if(sigungu.split(" ").length >= 2){
+                    newSido = sigungu.split(" ")[0];
+                    newSigungu = sigungu.split(" ")[1];
+                }
+
                 // axios를 사용하여 데이터 호출
                 const response = await axios.get(
-                    `${apiUrl}?serviceKey=${apiKey}&Q0=${sido === "all" ? "" : sido}&Q1=${sigungu === "all" ? "" : sigungu}&QN=${QN}&pageNo=${pageNo}&numOfRows=${numOfRows}`
+                    `${apiUrl}?serviceKey=${apiKey}&Q0=${newSido === "all" ? "" : newSido}&Q1=${newSigungu === "all" ? "" : newSigungu}&QN=${QN}&pageNo=${pageNo}&numOfRows=${numOfRows}`
                 );
                 
                 // 파싱된 데이터에서 병원 목록 추출
@@ -76,11 +86,20 @@ const Hospital = ()=>{
     // 검색 조건 업데이트 함수
     const handleRegionChange = (newRegion) => {
         setRegion(newRegion);
+        resetScroll();
     };
 
     // 검색 키워드 업데이트
     const handleSearch = (keyword) => {
         setSearchKeyword(keyword); 
+        resetScroll();
+    };
+
+    // 스크롤 높이값 초기화
+    const resetScroll = () => {
+        if (ulRef.current) {
+            ulRef.current.scrollTop = 0;
+        }
     };
 
 
@@ -97,7 +116,7 @@ const Hospital = ()=>{
     // @@ 병원 상세정보 불러오기 @@
     const fetchHospitalDetail = async (hpid, index) => {
         const apiUrl = "https://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlBassInfoInqire";
-        const apiKey = process.env.REACT_APP_SERVICE_KEY;
+        const apiKey = process.env.REACT_APP_DATA_SERVICE_KEY;
 
         try {
             const response = await axios.get(
@@ -204,7 +223,7 @@ const Hospital = ()=>{
                                     <li><a href="#">방문자순</a></li>
                                 </ul>
                             </div>
-                            <ul className="scroll">
+                            <ul className="scroll" ref={ulRef}>
                                 {/* 병원 리스트 렌더링 */}
                                 {hospitalData.length > 0 ? (
                                     hospitalData.map((hospital, index) => {
