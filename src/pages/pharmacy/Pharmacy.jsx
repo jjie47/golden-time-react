@@ -80,11 +80,6 @@ const Pharmacy = () => {
     // const [error, setError] = useState(null);
 
 
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
 
     // 검색버튼 클릭시 선택된 시/도와 시/군/구 값으로 API 호출
     const handleSearch = () => {
@@ -153,11 +148,8 @@ const Pharmacy = () => {
                         resolve({ latitude, longitude });
                         // console.log("1.위도:", latitude, "/ 경도:", longitude);
 
-<<<<<<< HEAD
-=======
                         createCurrentLocationMarker(latitude, longitude);
 
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                         getAddress(latitude, longitude);
                     },
                     (error) => {
@@ -176,11 +168,6 @@ const Pharmacy = () => {
         const appKey = process.env.REACT_APP_TMAP_APP_KEY;
         const version = "1";
         const url = `https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=${version}&lat=${latitude}&lon=${longitude}&appKey=${appKey}`;
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -200,17 +187,10 @@ const Pharmacy = () => {
                     sido: cityDo,
                     sigungu: sigungu,
                 });
-<<<<<<< HEAD
-    
-                if (regions.sido.includes(cityDo)) {
-                    setSelectedSido(cityDo);
-    
-=======
 
                 if (regions.sido.includes(cityDo)) {
                     setSelectedSido(cityDo);
 
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                     // 시/도가 변경되면, 해당 시/도의 군/구 목록에서 군/구를 선택
                     if (areaMapping[cityDo]?.includes(sigungu)) {
                         setSelectedArea(sigungu);
@@ -256,24 +236,14 @@ const Pharmacy = () => {
 
     const [markers, setMarkers] = useState([]);
     const markerImage = images['marker_pharmacy.png'];
-<<<<<<< HEAD
-=======
 
 
     // 모든 마커를 제거하는 함수
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
 
     const createMarkers = (data) => {
         const pharmacies = data?.response?.body?.items?.item;
 
         if (pharmacies) {
-<<<<<<< HEAD
-
-            removeMarkers();
-
-            // pharmacies 배열을 순회하며 마커를 생성
-            pharmacies.forEach((pharmacy) => {
-=======
             removeMarkers(); // 기존 마커 제거
 
             // pharmacies가 배열인지 확인 후 순회
@@ -313,7 +283,6 @@ const Pharmacy = () => {
             } else if (pharmacies) {
                 // pharmacies가 배열이 아닌 경우 (단일 객체일 때)
                 const pharmacy = pharmacies;
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                 const lat = pharmacy.wgs84Lat;
                 const lon = pharmacy.wgs84Lon;
                 const title = pharmacy.dutyName;
@@ -322,38 +291,11 @@ const Pharmacy = () => {
                     const position = new Tmapv2.LatLng(lat, lon);
                     const marker = new Tmapv2.Marker({
                         position: position,
-<<<<<<< HEAD
-                        map: map, // 마커가 표시될 Map 객체
-                        // label: title // 마커 라벨로 약국 이름 설정
-=======
                         map: map,
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                         icon: markerImage
                     });
 
                     marker.addListener("mouseenter", function (evt) {
-<<<<<<< HEAD
-                        marker.setLabel(title);  // 마우스 오버 시 label을 표시
-                    });
-
-                    marker.addListener("mouseleave", function (evt) {
-                        marker.setLabel('');  // 마우스 벗어날 때 label 숨기기
-                    });
-
-                    marker.addListener("click", function (evt) {
-                        handleOpenDetail(pharmacy);  // pharmacy 객체를 전달하여 handleOpenDetail 호출
-                        map.setCenter(position); // 마커 클릭시 center로 이동, 그러나 마커 클릭시에는 없에는게 좋을듯
-                        map.setZoom(18);
-
-                    });
-
-                    // 상태에 마커 추가
-                    setMarkers(prevMarkers => [...prevMarkers, marker]);
-
-                    map.setCenter(position); // 마커 생성시 center로 이동
-                    map.setZoom(13);
-
-=======
                         marker.setLabel(title);
                     });
 
@@ -370,17 +312,11 @@ const Pharmacy = () => {
                     setMarkers(prevMarkers => [...prevMarkers, marker]);
                     map.setCenter(position);
                     map.setZoom(13);
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                 }
             }
         }
     };
 
-<<<<<<< HEAD
-    // 모든 마커를 제거하는 함수
-=======
-
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
     const removeMarkers = () => {
         markers.forEach(marker => {
             marker.setMap(null);
@@ -414,8 +350,6 @@ const Pharmacy = () => {
 
     useEffect(() => {
         if (latitude !== null && longitude !== null) {
-<<<<<<< HEAD
-=======
             if (map) {
                 createCurrentLocationMarker(latitude, longitude);
             }
@@ -425,7 +359,6 @@ const Pharmacy = () => {
 
     useEffect(() => {
         if (latitude !== null && longitude !== null) {
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
             initTmap();
         }
     }, [latitude, longitude]);
@@ -501,8 +434,6 @@ const Pharmacy = () => {
     //검색 기능
     const [keyword, setKeyword] = useState('');
 
-<<<<<<< HEAD
-=======
     //길찾기
     const getRP = (pharmacy) => {
         // 약국의 위치 가져오기
@@ -582,7 +513,6 @@ const Pharmacy = () => {
     function onError() {
         alert("경로 요청 중 오류가 발생했습니다.");
     }
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
 
     return (
         <>
@@ -615,9 +545,6 @@ const Pharmacy = () => {
                                 <div class="flex">
                                     <input type="search" id="keyword" name="keyword" placeholder="약국명 검색"
                                         value={keyword}
-<<<<<<< HEAD
-                                        onChange={(e) => setKeyword(e.target.value)} />
-=======
                                         onChange={(e) => setKeyword(e.target.value)}
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter') {
@@ -625,7 +552,6 @@ const Pharmacy = () => {
                                                 handleSearch();
                                             }
                                         }} />
->>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                                     <a id="search-btn" class="btn" onClick={handleSearch}>
                                         <img src={images['search20_w.png']} alt="" />
                                     </a>
