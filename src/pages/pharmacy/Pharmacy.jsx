@@ -80,7 +80,11 @@ const Pharmacy = () => {
     // const [error, setError] = useState(null);
 
 
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
 
     // 검색버튼 클릭시 선택된 시/도와 시/군/구 값으로 API 호출
     const handleSearch = () => {
@@ -90,9 +94,10 @@ const Pharmacy = () => {
 
     const fetchpharm = async (sido, area) => {
         try {
-            // setError(null);
+            //기존 모달창 닫기
+            setIsDetailOpen(false);
+
             setpharm(null);
-            // setLoading(true);
 
             const response = await axios.get(URL, {
                 params: {
@@ -148,6 +153,11 @@ const Pharmacy = () => {
                         resolve({ latitude, longitude });
                         // console.log("1.위도:", latitude, "/ 경도:", longitude);
 
+<<<<<<< HEAD
+=======
+                        createCurrentLocationMarker(latitude, longitude);
+
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                         getAddress(latitude, longitude);
                     },
                     (error) => {
@@ -166,7 +176,11 @@ const Pharmacy = () => {
         const appKey = process.env.REACT_APP_TMAP_APP_KEY;
         const version = "1";
         const url = `https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=${version}&lat=${latitude}&lon=${longitude}&appKey=${appKey}`;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -186,10 +200,17 @@ const Pharmacy = () => {
                     sido: cityDo,
                     sigungu: sigungu,
                 });
+<<<<<<< HEAD
     
                 if (regions.sido.includes(cityDo)) {
                     setSelectedSido(cityDo);
     
+=======
+
+                if (regions.sido.includes(cityDo)) {
+                    setSelectedSido(cityDo);
+
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                     // 시/도가 변경되면, 해당 시/도의 군/구 목록에서 군/구를 선택
                     if (areaMapping[cityDo]?.includes(sigungu)) {
                         setSelectedArea(sigungu);
@@ -235,30 +256,83 @@ const Pharmacy = () => {
 
     const [markers, setMarkers] = useState([]);
     const markerImage = images['marker_pharmacy.png'];
+<<<<<<< HEAD
+=======
+
+
+    // 모든 마커를 제거하는 함수
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
 
     const createMarkers = (data) => {
         const pharmacies = data?.response?.body?.items?.item;
 
         if (pharmacies) {
+<<<<<<< HEAD
 
             removeMarkers();
 
             // pharmacies 배열을 순회하며 마커를 생성
             pharmacies.forEach((pharmacy) => {
+=======
+            removeMarkers(); // 기존 마커 제거
+
+            // pharmacies가 배열인지 확인 후 순회
+            if (Array.isArray(pharmacies)) {
+                pharmacies.forEach((pharmacy) => {
+                    const lat = pharmacy.wgs84Lat;
+                    const lon = pharmacy.wgs84Lon;
+                    const title = pharmacy.dutyName;
+
+                    if (lat && lon) {
+                        const position = new Tmapv2.LatLng(lat, lon);
+                        const marker = new Tmapv2.Marker({
+                            position: position,
+                            map: map,
+                            icon: markerImage
+                        });
+
+                        marker.addListener("mouseenter", function (evt) {
+                            marker.setLabel(title);
+                        });
+
+                        marker.addListener("mouseleave", function (evt) {
+                            marker.setLabel('');
+                        });
+
+                        marker.addListener("click", function (evt) {
+                            handleOpenDetail(pharmacy);
+                            map.setCenter(position);
+                            map.setZoom(18);
+                        });
+
+                        setMarkers(prevMarkers => [...prevMarkers, marker]);
+                        map.setCenter(position);
+                        map.setZoom(13);
+                    }
+                });
+            } else if (pharmacies) {
+                // pharmacies가 배열이 아닌 경우 (단일 객체일 때)
+                const pharmacy = pharmacies;
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                 const lat = pharmacy.wgs84Lat;
                 const lon = pharmacy.wgs84Lon;
                 const title = pharmacy.dutyName;
 
                 if (lat && lon) {
-                    const position = new Tmapv2.LatLng(lat, lon); // Tmapv3.LatLng으로 위치 설정
+                    const position = new Tmapv2.LatLng(lat, lon);
                     const marker = new Tmapv2.Marker({
                         position: position,
+<<<<<<< HEAD
                         map: map, // 마커가 표시될 Map 객체
                         // label: title // 마커 라벨로 약국 이름 설정
+=======
+                        map: map,
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                         icon: markerImage
                     });
 
                     marker.addListener("mouseenter", function (evt) {
+<<<<<<< HEAD
                         marker.setLabel(title);  // 마우스 오버 시 label을 표시
                     });
 
@@ -279,12 +353,34 @@ const Pharmacy = () => {
                     map.setCenter(position); // 마커 생성시 center로 이동
                     map.setZoom(13);
 
+=======
+                        marker.setLabel(title);
+                    });
+
+                    marker.addListener("mouseleave", function (evt) {
+                        marker.setLabel('');
+                    });
+
+                    marker.addListener("click", function (evt) {
+                        handleOpenDetail(pharmacy);
+                        map.setCenter(position);
+                        map.setZoom(18);
+                    });
+
+                    setMarkers(prevMarkers => [...prevMarkers, marker]);
+                    map.setCenter(position);
+                    map.setZoom(13);
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                 }
-            });
+            }
         }
     };
 
+<<<<<<< HEAD
     // 모든 마커를 제거하는 함수
+=======
+
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
     const removeMarkers = () => {
         markers.forEach(marker => {
             marker.setMap(null);
@@ -292,8 +388,44 @@ const Pharmacy = () => {
         setMarkers([]); // 상태 초기화
     };
 
+    const [currentLocationMarker, setCurrentLocationMarker] = useState(null);
+    const markerImage2 = images['marker_current.png'];
+
+    const createCurrentLocationMarker = (latitude, longitude) => {
+        if (map) {
+            // 기존 현재 위치 마커가 있으면 제거
+            if (currentLocationMarker) {
+                currentLocationMarker.setMap(null);
+            }
+
+            // 새로운 현재 위치 마커 생성
+            const position = new Tmapv2.LatLng(latitude, longitude);
+            const marker = new Tmapv2.Marker({
+                position: position,
+                map: map,
+                icon: markerImage2, // 현재 위치를 나타내는 마커 아이콘
+                label: '현재위치'
+            });
+
+            // 상태에 현재 위치 마커 저장
+            setCurrentLocationMarker(marker);
+        }
+    };
+
     useEffect(() => {
         if (latitude !== null && longitude !== null) {
+<<<<<<< HEAD
+=======
+            if (map) {
+                createCurrentLocationMarker(latitude, longitude);
+            }
+        }
+    }, [latitude, longitude, map]);
+
+
+    useEffect(() => {
+        if (latitude !== null && longitude !== null) {
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
             initTmap();
         }
     }, [latitude, longitude]);
@@ -369,6 +501,88 @@ const Pharmacy = () => {
     //검색 기능
     const [keyword, setKeyword] = useState('');
 
+<<<<<<< HEAD
+=======
+    //길찾기
+    const getRP = (pharmacy) => {
+        // 약국의 위치 가져오기
+        const e_latlng = new Tmapv2.LatLng(pharmacy.wgs84Lat, pharmacy.wgs84Lon);
+
+        // 현재 위치가 설정되어 있으면 경로 요청
+        if (latitude !== null && longitude !== null) {
+            const s_latlng = new Tmapv2.LatLng(latitude, longitude);
+
+            removeMarkers();
+
+            const optionObj = {
+                reqCoordType: "WGS84GEO",
+                resCoordType: "WGS84GEO",
+                trafficInfo: "Y"
+            };
+
+            const params = {
+                onComplete: onComplete,
+                onProgress: onProgress,
+                onError: onError
+            };
+
+            const tData = new Tmapv2.extension.TData();
+            tData.getRoutePlanJson(s_latlng, e_latlng, optionObj, params);
+
+            if (selectedPharm) {
+                const position = new Tmapv2.LatLng(selectedPharm.wgs84Lat, selectedPharm.wgs84Lon);
+                const marker = new Tmapv2.Marker({
+                    position: position,
+                    map: map,
+                    icon: markerImage,
+                    label: selectedPharm.dutyName // 약국 마커 아이콘 설정
+                });
+
+    
+                marker.addListener("click", function (evt) {
+                    handleOpenDetail(selectedPharm);
+                    map.setCenter(position);
+                    map.setZoom(18);
+                });
+    
+                // 마커 상태 업데이트
+                setMarkers([marker]);
+                map.setCenter(position);
+                map.setZoom(14);
+            }
+
+        } else {
+            alert("현재 위치 정보를 가져올 수 없습니다.");
+        }
+    };
+
+    // 기존 onComplete, onProgress, onError 함수 유지
+    function onComplete() {
+        console.log(this._responseData);
+        const jsonObject = new Tmapv2.extension.GeoJSON();
+        const jsonForm = jsonObject.rpTrafficRead(this._responseData);
+
+        const trafficColors = {
+            trafficDefaultColor: "#000000",
+            trafficType1Color: "#009900",
+            trafficType2Color: "#7A8E0A",
+            trafficType3Color: "#8E8111",
+            trafficType4Color: "#FF0000"
+        };
+
+        jsonObject.drawRouteByTraffic(map, jsonForm, trafficColors);
+        // map.setCenter(new Tmapv2.LatLng(37.55676159947993, 126.94734232774672));
+        map.setZoom(14);
+    }
+
+    function onProgress() {
+        // 로딩 중 동작
+    }
+
+    function onError() {
+        alert("경로 요청 중 오류가 발생했습니다.");
+    }
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
 
     return (
         <>
@@ -401,7 +615,17 @@ const Pharmacy = () => {
                                 <div class="flex">
                                     <input type="search" id="keyword" name="keyword" placeholder="약국명 검색"
                                         value={keyword}
+<<<<<<< HEAD
                                         onChange={(e) => setKeyword(e.target.value)} />
+=======
+                                        onChange={(e) => setKeyword(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                handleSearch();
+                                            }
+                                        }} />
+>>>>>>> 3d8cf6ad4edcfbe3b673df9e0c367ce3e344fc67
                                     <a id="search-btn" class="btn" onClick={handleSearch}>
                                         <img src={images['search20_w.png']} alt="" />
                                     </a>
@@ -463,16 +687,13 @@ const Pharmacy = () => {
                                                     </div>
                                                     리뷰 19건
                                                 </div>
-                                                <div className="find">
-                                                    <p>길찾기</p>
-                                                </div>
                                             </li>
                                         )
                                     })
                                 ) : (
                                     // 만약 배열이 아니라 객체일 경우, 이를 배열처럼 처리하여 하나의 항목을 렌더링
                                     pharm?.response?.body?.items?.item ? (
-                                        <li onClick={handleOpenDetail}>
+                                        <li onClick={() => handlePharmacyClick(pharm.response.body.items.item)}>
                                             <div className="name">
                                                 {pharm?.response?.body?.items?.item?.dutyName}
                                                 <a href="#">
@@ -496,9 +717,6 @@ const Pharmacy = () => {
                                                     <img src={images['grade3.png']} alt="별점" />
                                                 </div>
                                                 리뷰 19건
-                                            </div>
-                                            <div className="find">
-                                                <p>길찾기</p>
                                             </div>
                                         </li>
                                     ) : (
@@ -532,6 +750,9 @@ const Pharmacy = () => {
                                             </tr>
 
                                         </table>
+                                    </div>
+                                    <div className="find" onClick={() => getRP(selectedPharm)}>
+                                        <p>길찾기</p>
                                     </div>
                                     <div className="detail-tab flex">
                                         <p className={`tab1 ${activeTab === 'tab1' ? 'on' : ''}`} onClick={() => handleTabClick('tab1')}>정보</p>

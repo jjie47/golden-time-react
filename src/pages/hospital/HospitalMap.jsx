@@ -51,7 +51,6 @@ const HospitalMap = ({ region, setRegion, hospitalData, handleOpenDetail }) => {
                 headers: { 'Accept': 'application/json' }
             });
             const data = await response.json();
-
             if (data) {
                 const cityDo = data.addressInfo.city_do; // 시/도
                 const sigungu = data.addressInfo.gu_gun; // 시/군/구
@@ -109,7 +108,6 @@ const HospitalMap = ({ region, setRegion, hospitalData, handleOpenDetail }) => {
     },[hospitalData])
 
     const createMarkers = () => {
-
         if (hospitalData) { 
             
             removeMarkers();
