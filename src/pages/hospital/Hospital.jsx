@@ -194,7 +194,11 @@ const Hospital = ()=>{
 
 
     if (loading || !hospitalData) {
-        return <p>데이터를 불러오는 중입니다...</p>;
+        return (
+            <div id="hospital">
+                <p className="get-data">데이터를 불러오는 중입니다...</p>
+            </div>
+        )
     }
     if (error) {
         return <p>데이터를 불러오는 데 실패했습니다: {error.message}</p>;
