@@ -6,6 +6,7 @@ import axios from 'axios';
 import HospitalSearch from "./HospitalSearch";
 import HospitalDetail from "./HospitalDetail";
 import HospitalMap from "./HospitalMap.jsx";
+import Emergency from "../emergency/Emergency.jsx";
 
 
 const Hospital = ()=>{
