@@ -22,7 +22,6 @@ function App() {
 
   useEffect(()=>{
     sessionStorage.setItem("loginMember", loginMember);
-    console.log(sessionStorage.getItem("loginMember"));
   },[loginMember])
   
   return (
