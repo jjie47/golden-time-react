@@ -27,12 +27,20 @@ const Hospital = ()=>{
 
     // 병원 상세정보
     const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [selectIndex, setSelectIndex] = useState("");
     const [selectedHospital, setSelectedHospital] = useState("병원 미선택");
 
     // 병원 즐겨찾기
     const [favorites, setFavorites] = useState([]);
-    const [selectIndex, setSelectIndex] = useState("");
+    const [favoriteIndex, setFavoriteIndex] = useState("");
     const [isFavorite, setIsFavorite] = useState(null);
+
+    // 강제 리렌더링
+    const [dummyState, setDummyState] = useState(0);
+
+    const forceRender = () => {
+        setDummyState((prev) => prev + 1);
+    };
     
     // 병원리스트에서 응급실정보
     const emergencyRef = useRef([]); 
@@ -153,7 +161,7 @@ const Hospital = ()=>{
         const isFavorited = favorites[index]; // 현재 즐겨찾기 상태
         console.log("선택인덱스:", index);
         console.log("isFavorited:", isFavorited);
-        setSelectIndex(index);
+        setFavoriteIndex(index);
         try {
             if (!isFavorited) {
                 // 즐겨찾기 추가
@@ -183,6 +191,7 @@ const Hospital = ()=>{
             setFavorites((prevFavorites) => 
                 prevFavorites.map((fav, i) => (i === index ? !fav : fav))
             );
+            forceRender();
             
         } catch (error) {
             console.error('즐겨찾기 요청 중 오류 발생:', error);
@@ -196,6 +205,7 @@ const Hospital = ()=>{
         fetchHospitalDetail(hospital.hpid, index); // 병원 상세 정보 불러오기
         setIsFavorite(favorites[index]);
         setIsDetailOpen(true);
+        setSelectIndex(index);
     };
     const handleCloseDetail = () => {
         setIsDetailOpen(false);
@@ -286,10 +296,12 @@ const Hospital = ()=>{
                                                 hospital={hospital} 
                                                 index={index} 
                                                 handleOpenDetail={handleOpenDetail}
+                                                handleCloseDetail={handleCloseDetail}
                                                 renameClassification={renameClassification}
                                                 favoriteStar={favoriteStar}
                                                 favorites={favorites}
                                                 setIsFavorite={setIsFavorite}
+                                                forceRender={forceRender}
                                             />
                                         );
                                     })
@@ -302,13 +314,14 @@ const Hospital = ()=>{
                         {/* 선택한 병원 상세정보 */}
                         <HospitalDetail 
                             isDetailOpen={isDetailOpen}
-                            selectedHospital={selectedHospital} 
                             selectIndex={selectIndex}
+                            selectedHospital={selectedHospital} 
                             isFavorite={isFavorite}
                             setIsFavorite={setIsFavorite}
                             onClose={handleCloseDetail}
                             renameClassification={renameClassification}
                             favoriteStar={favoriteStar}
+                            forceRender={forceRender}
                         />
 
                     </div>

@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { images } from '../../utils/images';
 import HospitalModal from "./HospitalModal";
+import { mainContext } from "../../App";
 import { getFormattedTime, checkOpenStatus, cleanHospitalName } from "./Hospital";
 
 const HospitalDetail = ({ 
@@ -13,23 +14,23 @@ const HospitalDetail = ({
     renameClassification,
     favoriteStar,
 })=>{
-    const [activeTab, setActiveTab] = useState('tab1'); // 기본 tab1 활성화
-    const [isModalOpen, setIsModalOpen] = useState(false); // 리뷰 모달
+    // 로그인 확인(아이디 or null)
+    const { loginMember } = useContext(mainContext);
+
+    // 기본 tab1 활성화
+    const [activeTab, setActiveTab] = useState('tab1');
+    // 리뷰 모달
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     // 탭메뉴
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
+    const handleTabClick = (tab) => setActiveTab(tab);
 
     // 리뷰 모달창
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
-    };
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
+    const handleOpenModal = () => setIsModalOpen(true);
+    const handleCloseModal = () => setIsModalOpen(false);
 
-    console.log("가져온인덱스:",isFavorite);
+    // console.log("가져온인덱스:",isFavorite);
 
     return (
         <>
@@ -45,7 +46,7 @@ const HospitalDetail = ({
                                 onClick={(e) => {
                                     e.preventDefault();
                                     favoriteStar(selectedHospital, selectIndex);
-                                    // setIsFavorite(prevState => !prevState);
+                                    setIsFavorite(prevState => !prevState);
                                 }}
                             >
                                 <img
@@ -179,7 +180,15 @@ const HospitalDetail = ({
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <a href="#" onClick={handleOpenModal}> 리뷰작성</a>
+                                    <a href="#" 
+                                        onClick={() => {
+                                            if (loginMember) {
+                                                handleOpenModal();
+                                            } else {
+                                                alert('로그인이 필요합니다.');
+                                            }
+                                        }}
+                                    > 리뷰작성</a>
                                 </div>
                                 <div className="review">
                                     <h4>리뷰</h4>

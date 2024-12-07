@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { images } from '../../utils/images';
 import axios from 'axios';
+import MailCertification from "../../components/MailCertification";
 
 const Join = () => {
     const navigate = useNavigate();
@@ -14,22 +15,28 @@ const Join = () => {
         email:"",
     });
 
+    // MailCertification에서 이메일 받아오기
+    const [emailValues, setEmailValues] = useState({
+        emailId: '',
+        emailDomain: 'naver.com',
+    });
+    const handleRequestEmail = (values) => {
+        setEmailValues(values);
+        // emailValues.emailId
+        // emailValues.emailDomain
+    };
+    // 이메일 유효성검사
+    const emailIdRef = useRef(null);
+    const certificationNumberRef = useRef(null);
+
+
     const [passwordRe, setPasswordRe] = useState('');
-    const [emailId, setEmailId] = useState('');
-    const [emailDomain, setEmailDomain] = useState('naver.com');
-    const [isCustomEmail, setIsCustomEmail] = useState(false); // 이메일 직접입력
-    const [isMailCertification, setIsMailCertification] = useState(false); // 인증번호 받기(메일전송)
+
     const [isMailCheck, setIsMailCheck] = useState(false); // 메일 인증번호 확인
-    const [memberMailNumber, setMemberMailNumber] = useState(''); // 유저가 입력한 인증번호
-    
+
     const idCheckRef = useRef(false); // 아이디 중복확인
     const pwCheckRef = useRef(false); // 비밀번호 확인
 
-
-    // 테두리 색상 초기화
-    const borderColor = (e) => {
-        e.target.style.borderColor = '#ddd';
-    }
 
     // 아이디 중복확인
     const handleCheckId = async () => {
@@ -82,67 +89,6 @@ const Join = () => {
     }, [passwordRe, inputs.password]);
 
 
-    // 이메일 도메인 선택
-    const handleEmailDomainChange = (e) => {
-        if (e.target.value === 'custom') {
-            setIsCustomEmail(true);
-            setEmailDomain(e.target.value);
-            // setCustomEmail('');
-        } else {
-            setIsCustomEmail(false);
-            setEmailDomain(e.target.value);
-        }
-    };
-
-
-    // 인증메일 발송
-    const handleSendMail = async () => {
-        const email = `${emailId}@${emailDomain}`;
-        try {
-            const response = await axios.post('/api/member/sendMailCertificationNumber', null, {
-                params: { email: email }
-            });
-            console.log(response.data);
-            setIsMailCertification(true);
-        } catch (error) {
-            console.error('인증번호 발송 실패:', error);
-        }
-    };
-
-    
-    // 인증메일 확인
-    const CertificationNumberCheck = async () => {
-        const certiRegex = /^\d{6}$/; // 숫자6자
-        if (!certiRegex.test(memberMailNumber)) {
-            alert('인증번호 형식이 올바르지 않습니다.');
-            return;
-        }
-        try {
-            const response = await axios.post('/api/member/certificationNumberCheck', null, {
-                params: { memberMailNumber: memberMailNumber }
-            });
-            console.log(response.data);
-
-            if (response.data === 'O') {
-                setIsMailCheck(true);
-                document.getElementById('mailCheck').style.opacity = '1';
-                document.getElementById('certificationNumber').style.backgroundColor = '#eee';
-                document.getElementById('certificationNumber').style.color = '#aaa';
-            } else {
-                alert('인증번호가 올바르지 않습니다.');
-                setIsMailCheck(false);
-                setMemberMailNumber('');
-                document.getElementById('certificationNumber').style.borderColor = 'red';
-                document.getElementById('certificationNumber').focus();
-                return;
-            }
-        } catch (error) {
-            console.error('인증번호 확인 실패:', error);
-        }
-    }
-
-
-
     // Submit
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -169,6 +115,20 @@ const Join = () => {
             return;
         }
 
+        // 메일 확인
+        if (emailValues.emailId == "" || emailValues.emailId == null) {
+            alert('이메일을 입력해주세요.');
+            emailIdRef.current.style.borderColor = 'red';
+            emailIdRef.current.focus();
+            return;
+        }
+        if (!isMailCheck) {
+            alert('이메일 인증을 완료해주세요.');
+            certificationNumberRef.current.style.borderColor = 'red';
+            certificationNumberRef.current.focus();
+            return;
+        }
+
         // 닉네임 확인
         if (inputs.nickname == "") {
             alert('닉네임을 입력해주세요.');
@@ -180,20 +140,6 @@ const Join = () => {
             alert('닉네임은 2자 이상 입력해주세요');
             document.getElementById('nickname').style.borderColor = 'red';
             document.getElementById('nickname').focus();
-            return;
-        }
-
-        // 메일 확인
-        if (emailId == "") {
-            alert('이메일을 입력해주세요.');
-            document.getElementById('emailId').style.borderColor = 'red';
-            document.getElementById('emailId').focus();
-            return;
-        }
-        if (!isMailCheck) {
-            alert('이메일 인증을 완료해주세요.');
-            document.getElementById('certificationNumber').style.borderColor = 'red';
-            document.getElementById('certificationNumber').focus();
             return;
         }
 
@@ -209,7 +155,7 @@ const Join = () => {
         // 전달할 객체(memberDTO)
         const setInputs = {
             ...inputs,
-            email:`${emailId}@${emailDomain}`,
+            email:`${emailValues.emailId}@${emailValues.emailDomain}`,
         };
 
         try {
@@ -295,6 +241,17 @@ const Join = () => {
                             <span>영문,숫자,특수문자를 모두 조합하여 8~20자이내로 입력해주세요.</span>
                         </div>
 
+                        <div className="email">
+                            <p>이메일 *</p>
+                            <MailCertification 
+                                handleRequestEmail={handleRequestEmail}
+                                emailIdRef={emailIdRef}
+                                certificationNumberRef={certificationNumberRef}
+                                isMailCheck={isMailCheck}
+                                setIsMailCheck={setIsMailCheck}
+                            />
+                        </div>
+
                         <div className="nick">
                             <p>닉네임 *</p>
                             <input
@@ -311,69 +268,6 @@ const Join = () => {
                                     borderColor(e);
                                 }}
                             />
-                        </div>
-
-                        <div className="email">
-                            <p>이메일 *</p>
-                            <div className="email-input">
-                                <input
-                                    type="text"
-                                    name="emailId"
-                                    id="emailId"
-                                    placeholder="이메일"
-                                    value={emailId}
-                                    onChange={(e) => {
-                                        setEmailId(e.target.value);
-                                        borderColor(e);
-                                    }}
-                                />
-                                &nbsp;@&nbsp;
-                                <select
-                                    name="emailDomain"
-                                    id="emailDomain"
-                                    value={emailDomain || ''}
-                                    onChange={handleEmailDomainChange}
-                                >
-                                    <option value="naver.com">naver.com</option>
-                                    <option value="gmail.com">gmail.com</option>
-                                    <option value="daum.net">daum.net</option>
-                                    <option value="custom">직접 입력</option>
-                                </select>
-
-                                {/* 이메일 도메인 직접 입력 */}
-                                {isCustomEmail && (
-                                    <input
-                                        className="custom-email"
-                                        name="customEmail"
-                                        id="customEmail"
-                                        type="text"
-                                        placeholder="직접 입력"
-                                        value={emailDomain === 'custom' ? '' : emailDomain}
-                                        onChange={(e) => setEmailDomain(e.target.value)}
-                                    />
-                                )}
-                            </div>
-                            <div className="certification">
-                                <button type="button" className="one" onClick={handleSendMail}>인증번호 받기</button>
-                                <div className={`check ${isMailCertification ? 'check-on' : 'check-off'}`}>
-                                    <div className="flex">
-                                        <input
-                                            type="text"
-                                            name="certificationNumber"
-                                            id="certificationNumber"
-                                            placeholder="인증번호 입력"
-                                            value={memberMailNumber}
-                                            onChange={(e) => {
-                                                setMemberMailNumber(e.target.value);
-                                                borderColor(e);
-                                            }}
-                                            readOnly={isMailCheck}
-                                        />
-                                        <button type="button" className='two' onClick={CertificationNumberCheck}>확인</button>
-                                    </div>
-                                    <img id="mailCheck" src={images['check17_g.png']} alt=""/>
-                                </div>
-                            </div>
                         </div>
 
                         <div className="phone">
@@ -405,3 +299,8 @@ const Join = () => {
 };
 
 export default Join;
+
+// 테두리 색상 초기화
+export const borderColor = (e) => {
+    e.target.style.borderColor = '#ddd';
+}

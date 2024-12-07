@@ -6,10 +6,12 @@ const HospitalListItem = ({
     hospital, 
     index,
     handleOpenDetail,
+    handleCloseDetail,
     renameClassification,
     favoriteStar,
     favorites,
-    setIsFavorite
+    setIsFavorite,
+    forceRender
 }) => {
     // 오픈 유/무
     const { status, open, close } = checkOpenStatus(hospital);
@@ -25,7 +27,7 @@ const HospitalListItem = ({
                         e.preventDefault();
                         e.stopPropagation(); 
                         favoriteStar(hospital, index);
-                        
+                        handleCloseDetail();
                     }}
                 >
                     <img
