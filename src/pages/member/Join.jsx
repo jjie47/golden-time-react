@@ -102,6 +102,12 @@ const Join = () => {
         }
 
         // 비밀번호 확인
+        if (inputs.password == "" || inputs.password == null) {
+            alert('비밀번호를 입력해주세요.');
+            document.getElementById('password').style.borderColor = 'red';
+            document.getElementById('password').focus();
+            return;
+        }
         if (!pwCheckRef.current) {
             alert('비밀번호 형식이 올바르지 않습니다.');
             document.getElementById('password').style.borderColor = 'red';
@@ -193,7 +199,7 @@ const Join = () => {
                                     id="memberId"
                                     placeholder="아이디"
                                     value={inputs.memberId}
-                                    onChange={(e) => {
+                                    onInput={(e) => {
                                         setInputs({
                                             ...inputs,
                                             memberId: e.target.value,
@@ -214,7 +220,7 @@ const Join = () => {
                                 id="password"
                                 placeholder="비밀번호"
                                 value={inputs.password}
-                                onChange={(e) => {
+                                onInput={(e) => {
                                     setInputs({
                                         ...inputs,
                                         password: e.target.value,
@@ -231,7 +237,7 @@ const Join = () => {
                                 id="passwordRe"
                                 placeholder="비밀번호 확인"
                                 value={passwordRe}
-                                onChange={(e) => {
+                                onInput={(e) => {
                                     setPasswordRe(e.target.value);
                                     handlePwReCheck();
                                     borderColor(e);
@@ -260,7 +266,7 @@ const Join = () => {
                                 id="nickname"
                                 placeholder="닉네임"
                                 value={inputs.nickname}
-                                onChange={(e) => {
+                                onInput={(e) => {
                                     setInputs({
                                         ...inputs,
                                         nickname: e.target.value,
@@ -279,7 +285,7 @@ const Join = () => {
                                     id="phoneNumber"
                                     placeholder="전화번호( - 없이 입력)"
                                     value={inputs.phoneNumber}
-                                    onChange={(e) => {
+                                    onInput={(e) => {
                                         setInputs({
                                             ...inputs,
                                             phoneNumber: e.target.value,

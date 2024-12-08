@@ -49,7 +49,7 @@ const Login = ()=>{
 
         // 비밀번호 확인
         if (password == "") {
-            alert('아이디를 입력해주세요');
+            alert('비밀번호를 입력해주세요');
             document.getElementById('password').style.borderColor = 'red';
             document.getElementById('password').focus();
             return;
@@ -63,7 +63,7 @@ const Login = ()=>{
                 setLoginMember(inputs.memberId);
                 navigate('/'); 
             } else {
-                alert('로그인에 실패하였습니다.');
+                alert('아이디 또는 비밀번호를 확인해주세요.');
                 navigate('/member/login'); 
             }
         } catch (error) {
@@ -86,7 +86,7 @@ const Login = ()=>{
                             id="memberId" 
                             placeholder="아이디를 입력해주세요"
                             value={inputs.memberId}
-                            onChange={(e) => 
+                            onInput={(e) => 
                                 setInputs({
                                     ...inputs,
                                     memberId: e.target.value,
@@ -100,7 +100,7 @@ const Login = ()=>{
                             id="password"
                             placeholder="비밀번호를 입력해주세요"
                             value={inputs.password}
-                            onChange={(e) => 
+                            onInput={(e) => 
                                 setInputs({
                                     ...inputs,
                                     password: e.target.value,
@@ -108,8 +108,8 @@ const Login = ()=>{
                             }
                         />
                         <div className="f-right">
-                            <Link to="#">아이디 찾기</Link>
-                            <Link to="#">비밀번호 찾기</Link>
+                            <Link to="/member/help/IdInquiry">아이디 찾기</Link>
+                            <Link to="/member/help/PwInquiry">비밀번호 찾기</Link>
                         </div>
                         <button 
                             className="navy-box last-btn"

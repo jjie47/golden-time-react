@@ -25,6 +25,7 @@ const MailCertification = ({
     };
 
 
+
     // 이메일 도메인 선택(직접입력인지 확인)
     const handleEmailDomainChange = (e) => {
         setIsCustomEmail(e.target.value === 'custom');
@@ -94,7 +95,7 @@ const MailCertification = ({
                         placeholder="이메일"
                         value={emailId}
                         ref={emailIdRef}
-                        onChange={(e) => {
+                        onInput={(e) => {
                             setEmailId(e.target.value);
                             borderColor(e);
                             handleSendEmailToParent();
@@ -106,7 +107,7 @@ const MailCertification = ({
                         name="emailDomain"
                         id="emailDomain"
                         value={emailDomain || ''}
-                        onChange={(e) => {
+                        onInput={(e) => {
                             setEmailDomain(e.target.value);
                             handleEmailDomainChange(e);
                             handleSendEmailToParent();
@@ -128,7 +129,7 @@ const MailCertification = ({
                             type="text"
                             placeholder="직접 입력"
                             value={emailDomain === 'custom' ? '' : emailDomain}
-                            onChange={(e) => setEmailDomain(e.target.value)}
+                            onInput={(e) => setEmailDomain(e.target.value)}
                             readOnly={isMailCheck}
                             />
                     )}
@@ -144,7 +145,7 @@ const MailCertification = ({
                                 placeholder="인증번호 입력"
                                 value={memberMailNumber}
                                 ref={certificationNumberRef}
-                                onChange={(e) => {
+                                onInput={(e) => {
                                     setMemberMailNumber(e.target.value);
                                     borderColor(e);
                                 }}
