@@ -1,8 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { images } from '../../utils/images';
-// import * as regions from '../../constants/regions';
 import axios from 'axios';
-// import { XMLParser } from "fast-xml-parser";
 import HospitalSearch from "./HospitalSearch";
 import HospitalDetail from "./HospitalDetail";
 import HospitalMap from "./HospitalMap.jsx";
@@ -79,15 +77,16 @@ const Hospital = ()=>{
                 // 병원 분류명 데이터를 useRef에 저장
                 classificationRef.current = hospitals.map((hospital) => hospital.dutyDivNam || "병원 분류명 없음");
 
-                setLoading(false);  // 로딩 종료
+                setLoading(false);
 
             } catch (error) {
-                setError(error);  // 에러 발생 시 에러 상태 설정
-                setLoading(false);  // 로딩 종료
+                setError(error);
+                setLoading(false);
             }
         };
 
-        if (region.sido !== "all" || searchKeyword) { // 키워드 또는 지역 조건 변경 시 트리거
+        // 키워드 또는 지역 조건 변경 시 트리거
+        if (region.sido !== "all" || searchKeyword) {
             fetchHospitalData();
         }
 
@@ -127,6 +126,7 @@ const Hospital = ()=>{
     useEffect(() => {
         setHospitalData(allHospitalData.slice(0, itemsToShow));
     }, [itemsToShow, allHospitalData]);
+
     
     // 즐겨찾기 상태확인
     useEffect(() => {
@@ -149,10 +149,7 @@ const Hospital = ()=>{
                         }
                     })
                 );
-        
                 setFavorites(updatedFavorites);
-                console.log("Favorites: ", updatedFavorites);
-        
             } catch (error) {
                 console.error('즐겨찾기 여부를 가져오는 중 오류 발생:', error);
             }
@@ -168,8 +165,6 @@ const Hospital = ()=>{
             return;
         }
         const isFavorited = favorites[index]; // 현재 즐겨찾기 상태
-        console.log("선택인덱스:", index);
-        console.log("isFavorited:", isFavorited);
         setFavoriteIndex(index);
         try {
             if (!isFavorited) {
@@ -182,7 +177,6 @@ const Hospital = ()=>{
                     dutyDiv : hospital.dutyDivNam,
                     dutyTel : hospital.dutyTel1,
                 });
-                console.log("즐겨찾기 추가: ", response.data);
             } else {
                 // 즐겨찾기 삭제
                 const response = await axios({
@@ -193,7 +187,6 @@ const Hospital = ()=>{
                         dutyId: hospital.hpid,
                     },
                 });
-                console.log("즐겨찾기 삭제: ", response.data);
             }
       
             // 즐겨찾기 상태 업데이트
@@ -328,19 +321,16 @@ const Hospital = ()=>{
                             renameClassification={renameClassification}
                             favoriteStar={favoriteStar}
                         />
-
                     </div>
 
                     {/* 오른쪽 지도 */}
                     <HospitalMap 
-                        region={region} 
                         setRegion={setRegion} 
                         hospitalData={hospitalData}
                         handleOpenDetail={handleOpenDetail}
+                        selectedHospital={selectedHospital}
                     />
-
                 </div>
-
             </div>
         </>
     );

@@ -66,16 +66,14 @@ const IdInquiry = () => {
 
         try {
             const response = await axios.post('/api/member/help/IdInquiry', setInputs);
-            console.log("response.data: ", response.data);
+            // console.log("response.data: ", response.data);
 
             if (response.data !== "X") {
                 setFindResult(response.data)
                 document.getElementById('findResult').style.display = 'block';
             } else {
                 alert('등록된 아이디가 없습니다.');
-                console.log("아이디없음: ",response.data);
                 setIsMailCheck(false);
-                navigate('/member/help/IdInquiry'); 
             }
 
         } catch (error) {
@@ -132,8 +130,6 @@ const IdInquiry = () => {
                         <Link to="/member/login">로그인 바로가기</Link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Link to="/member/help/PwInquiry">비밀번호 찾기</Link>
                     </div>
-
-                    
                 </div>
             </div>
         </>

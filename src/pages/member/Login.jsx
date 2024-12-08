@@ -3,9 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import { mainContext } from "../../App";
 
-
-
-const Login = ()=>{
+const Login = ()=> {
     const {setLoginMember} = useContext(mainContext);
     const navigate = useNavigate();
 

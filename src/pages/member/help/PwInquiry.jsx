@@ -106,7 +106,7 @@ const PwInquiry = () => {
 
         try {
             const response = await axios.post('/api/member/help/PwInquiry', setInputs);
-            console.log("response.data: ", response.data);
+            // console.log("response.data: ", response.data);
 
             if (response.data === "O") {
                 document.getElementById('findResult').style.display = 'block';
