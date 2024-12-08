@@ -14,7 +14,9 @@ const Hospital = ()=>{
     const { loginMember } = useContext(mainContext);
 
     // 병원 리스트 호출
-    const [hospitalData, setHospitalData] = useState([]);
+    const [allHospitalData, setAllHospitalData] = useState([]); //모든데이터
+    const [hospitalData, setHospitalData] = useState([]); //보이는데이터
+    const [itemsToShow, setItemsToShow] = useState(15); // 처음 보여줄 병원 수
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -35,13 +37,6 @@ const Hospital = ()=>{
     const [favoriteIndex, setFavoriteIndex] = useState("");
     const [isFavorite, setIsFavorite] = useState(null);
 
-    // 강제 리렌더링
-    const [dummyState, setDummyState] = useState(0);
-
-    const forceRender = () => {
-        setDummyState((prev) => prev + 1);
-    };
-    
     // 병원리스트에서 응급실정보
     const emergencyRef = useRef([]); 
     // 병원리스트에서 병원 분류명
@@ -58,8 +53,6 @@ const Hospital = ()=>{
             const apiKey = process.env.REACT_APP_DATA_SERVICE_KEY;
             const { sido, sigungu } = region;
             const QN = searchKeyword.trim();
-            const pageNo = 1;
-            const numOfRows = 10;
  
             try {
                 let newSido = sido;
@@ -72,13 +65,14 @@ const Hospital = ()=>{
 
                 // axios를 사용하여 데이터 호출
                 const response = await axios.get(
-                    `${apiUrl}?serviceKey=${apiKey}&Q0=${newSido === "all" ? "" : newSido}&Q1=${newSigungu === "all" ? "" : newSigungu}&QN=${QN}&pageNo=${pageNo}&numOfRows=${numOfRows}`
+                    `${apiUrl}?serviceKey=${apiKey}&Q0=${newSido === "all" ? "" : newSido}&Q1=${newSigungu === "all" ? "" : newSigungu}&QN=${QN}&pageNo=1&numOfRows=1000`
                 );
                 
                 // 파싱된 데이터에서 병원 목록 추출
                 const item = response?.data?.response?.body?.items?.item || [];
                 const hospitals = Array.isArray(item) ? item : item ? [item] : [];
-                setHospitalData(hospitals); // 받아온 데이터 저장
+                setAllHospitalData(hospitals); // 받아온 데이터 저장
+                setHospitalData(hospitals.slice(0, itemsToShow)); // 초기 데이터 렌더링
 
                 // 응급실 여부 데이터를 useRef에 저장
                 emergencyRef.current = hospitals.map((hospital) => hospital.dutyEmclsName || "응급실 정보 없음");
@@ -119,6 +113,21 @@ const Hospital = ()=>{
         }
     };
 
+    // 무한 스크롤 이벤트 핸들러
+    const handleScroll = () => {
+        if (
+            ulRef.current &&
+            ulRef.current.scrollTop + ulRef.current.clientHeight >= ulRef.current.scrollHeight - 10
+        ) {
+            setItemsToShow((prev) => prev + 15); // 추가 데이터 렌더링
+        }
+    };
+
+    // 보여줄 데이터 업데이트
+    useEffect(() => {
+        setHospitalData(allHospitalData.slice(0, itemsToShow));
+    }, [itemsToShow, allHospitalData]);
+    
     // 즐겨찾기 상태확인
     useEffect(() => {
         const fetchFavorites = async () => {
@@ -191,7 +200,6 @@ const Hospital = ()=>{
             setFavorites((prevFavorites) => 
                 prevFavorites.map((fav, i) => (i === index ? !fav : fav))
             );
-            forceRender();
             
         } catch (error) {
             console.error('즐겨찾기 요청 중 오류 발생:', error);
@@ -279,14 +287,14 @@ const Hospital = ()=>{
 
                         <div className="list">
                             <div className="flex">
-                                <p>총 {hospitalData.length}건</p> 
+                                <p>총 {allHospitalData.length}건</p> 
                                 <ul className="sorting flex">
                                     <li><a href="#">거리순</a></li>
                                     <li><a href="#">평점순</a></li>
                                     <li><a href="#">방문자순</a></li>
                                 </ul>
                             </div>
-                            <ul className="scroll" ref={ulRef}>
+                            <ul className="scroll" ref={ulRef} onScroll={handleScroll}>
                                 {/* 병원 리스트 렌더링 */}
                                 {hospitalData.length > 0 ? (
                                     hospitalData.map((hospital, index) => {
@@ -300,8 +308,6 @@ const Hospital = ()=>{
                                                 renameClassification={renameClassification}
                                                 favoriteStar={favoriteStar}
                                                 favorites={favorites}
-                                                setIsFavorite={setIsFavorite}
-                                                forceRender={forceRender}
                                             />
                                         );
                                     })
@@ -321,7 +327,6 @@ const Hospital = ()=>{
                             onClose={handleCloseDetail}
                             renameClassification={renameClassification}
                             favoriteStar={favoriteStar}
-                            forceRender={forceRender}
                         />
 
                     </div>

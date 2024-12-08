@@ -10,8 +10,6 @@ const HospitalListItem = ({
     renameClassification,
     favoriteStar,
     favorites,
-    setIsFavorite,
-    forceRender
 }) => {
     // 오픈 유/무
     const { status, open, close } = checkOpenStatus(hospital);
