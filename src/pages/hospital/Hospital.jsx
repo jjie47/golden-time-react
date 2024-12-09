@@ -63,7 +63,7 @@ const Hospital = ()=>{
 
                 // axios를 사용하여 데이터 호출
                 const response = await axios.get(
-                    `${apiUrl}?serviceKey=${apiKey}&Q0=${newSido === "all" ? "" : newSido}&Q1=${newSigungu === "all" ? "" : newSigungu}&QN=${QN}&pageNo=1&numOfRows=1000`
+                    `${apiUrl}?serviceKey=${apiKey}&Q0=${newSido === "all" ? "" : newSido}&Q1=${newSigungu === "all" ? "" : newSigungu}&QN=${QN}&pageNo=1&numOfRows=3000`
                 );
                 
                 // 파싱된 데이터에서 병원 목록 추출
@@ -280,7 +280,7 @@ const Hospital = ()=>{
 
                         <div className="list">
                             <div className="flex">
-                                <p>총 {allHospitalData.length}건</p> 
+                                <p>총 {allHospitalData.length == 3000 ? 0 : allHospitalData.length}건</p> 
                                 <ul className="sorting flex">
                                     <li><a href="#">거리순</a></li>
                                     <li><a href="#">평점순</a></li>

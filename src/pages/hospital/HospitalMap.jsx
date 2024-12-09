@@ -149,7 +149,7 @@ const HospitalMap = ({
                     });
 
                     marker.addListener("click", function(evt) {
-                        handleOpenDetail(hospital);  // hospital 객체를 전달하여 handleOpenDetail 호출
+                        handleOpenDetail(hospital, hospital.rnum-1);  // hospital 객체를 전달하여 handleOpenDetail 호출
                     });
     
                     // 상태에 마커 추가
