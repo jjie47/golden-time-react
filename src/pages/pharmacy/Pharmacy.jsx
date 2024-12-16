@@ -5,6 +5,8 @@ import * as regions from "../../constants/regions";
 import axios from "axios";
 import { mainContext } from "../../App";
 import { Toggle } from "./Toggle";
+import ProfileImage from "../member/mypage/ProfileImage";
+import { getMemberProfile } from "../../apis/services/goldentimeService";
 
 const URL = "http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire";
 
@@ -959,6 +961,13 @@ const Pharmacy = () => {
         }
     }, [isFiltered, pharm]);
 
+
+    // 리뷰 작성시 프로필 사진 불러오기 위한 멤버 정보
+    const [memberInfo, setMemberInfo] = useState({});
+    useEffect(()=>{
+        getMemberProfile(sessionStorage.getItem("loginMember"), setMemberInfo)
+    },[])
+
     return (
         <>
             <div id="yakgook">
@@ -1296,7 +1305,8 @@ const Pharmacy = () => {
                                                         <li>
                                                             <div className="flex">
                                                                 <div className="img">
-                                                                    <img src={images['default_image.jpg']} alt="" />
+                                                                    {/* <img src={images['default_image.jpg']} alt="" /> */}
+                                                                    <img src={`/api/member/${showreviews[0].memberId}/member-image`} alt=""/>
                                                                 </div>
                                                                 <div>
                                                                     {showreviews[0].nickname}
@@ -1311,7 +1321,8 @@ const Pharmacy = () => {
                                                             <li key={index}>
                                                                 <div className="flex">
                                                                     <div className="img">
-                                                                        <img src={images['default_image.jpg']} alt="" />
+                                                                        {/* <img src={`/api/member/${review.memberId}/member-image`} alt=""/> */}
+                                                                        <img src={`/api/member/${review.memberId}/member-image`} alt=""/>
                                                                     </div>
                                                                     <div>
                                                                         {review.nickname}
@@ -1346,7 +1357,7 @@ const Pharmacy = () => {
                                 <div className="flex">
                                     <div className="flex">
                                         <div className="img">
-                                            <img src={images['default_image.jpg']} alt="" />
+                                            <ProfileImage systemName={memberInfo.systemName} />
                                         </div>
                                         <p>{memberNickname}</p>
                                     </div>
