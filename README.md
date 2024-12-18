@@ -14,7 +14,7 @@
   - 의약품정보 조회
   - 메인페이지(응급실 조회)
 - 양지은
-  - 병원 조회
+  - [병원 조회](#three)
   - 로그인, 회원가입, ID/PW찾기
   - 메인페이지(퍼블리싱)
 - 한상혁
@@ -53,10 +53,12 @@
   - 검진기관 정보 조회
 
 ## ⭐ 주요기능
+<a id="one"></a>
 ### 1. 메인 페이지
 ![image](https://github.com/user-attachments/assets/1cac7a39-3571-473a-8b58-3e4381b7cd08)
 - 사용자 위치 기반 실시간 응급실 정보 조회
 
+<a id="two"></a>
 ### 2. 응급실 조회
 ![image](https://github.com/user-attachments/assets/200f65c4-47d0-4339-9ff1-7c0626c1d1d4)
 - 사용자 위치 기반 실시간 응급실 정보 조회(공공데이터 API 사용)
@@ -65,6 +67,7 @@
 - 지역 검색, 병원명 검색
 - 길찾기 기능(자동차 경로)
 
+<a id="three"></a>
 ### 3. 병원 & 약국 조회
 ![image](https://github.com/user-attachments/assets/5eaf9112-57d9-4e0c-b00d-7720b35a9a09)
 - 사용자 위치 기반 병원(약국) 정보 조회(공공데이터 API 사용)
@@ -75,6 +78,7 @@
 - 병원(약국) 즐겨찾기
 - 리뷰 및 평점 기능
 
+<a id="four"></a>
 ### 4. 건강검진기관 조회
 ![image](https://github.com/user-attachments/assets/41d0be91-34d6-4463-b3a8-039478db9e8a)
 - 사용자 위치 기반 검진기관 조회(공공데이터 API 사용)
