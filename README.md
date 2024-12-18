@@ -44,5 +44,38 @@
 **WAS** <br/>
 <img src="https://img.shields.io/badge/tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black"> <br/>
 
+### API
+- TMAP API
+- HTML5 Geolocation API
+- 공공데이터 API
+  - 응급의료기관 정보 조회
+  - 병원 정보 조회
+  - 약국 정보 조회
+  - 의약품 정보 조회
+  - 검진기관 정보 조회
+
+## ⭐ 주요기능
+### 1. 메인 페이지
+![image](https://github.com/user-attachments/assets/1cac7a39-3571-473a-8b58-3e4381b7cd08)
+- 사용자 위치 기반 실시간 응급실 정보 조회
+
+### 2. 응급실 조회
+![image](https://github.com/user-attachments/assets/200f65c4-47d0-4339-9ff1-7c0626c1d1d4)
+- 사용자 위치 기반 실시간 응급실 정보 조회(공공데이터 API사용)
+- 응급실 리스트 클릭 시 응급실 상세정보 OPEN
+- 지역 검색, 병원명 검색
+- 길찾기 기능(자동차 경로)
+
+### 3. 병원 & 약국 조회
+![image](https://github.com/user-attachments/assets/5eaf9112-57d9-4e0c-b00d-7720b35a9a09)
+- 사용자 위치 기반 병원(약국) 정보 조회(공공데이터 API사용)
+- 병원(약국) 리스트 클릭 시 병원 상세정보 OPEN
+- 지역검색, 병원(약국)명 검색, 병원 종류 검색
+- 길찾기 기능(자동차 경로)
+- 병원(약국) 즐겨찾기
+- 리뷰 및 평점 기능
+
+### 4. 건강검진기관 조회
+
 
 
