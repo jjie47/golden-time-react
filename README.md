@@ -26,11 +26,11 @@
 ## ⚙️ 개발환경
 **운영체제** <br/>
 <img src="https://img.shields.io/badge/Window10-0a85d9?style=for-the-badge&logo=Window10&logoColor=white"> <br/>
-**사용언어(Front-end)** <br/>
+**Front-end** <br/>
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <br/>
-**사용언어(Back-end)** <br/>
+**Back-end** <br/>
 <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=white">
 <img src="https://img.shields.io/badge/JSP&Servlet-e06c00?style=for-the-badge&logo=JSP&Servlet&logoColor=white"> <br/>
 **FrameWork / Library** <br/>
@@ -39,7 +39,7 @@
 <img src="https://img.shields.io/badge/MyBatis-d30101?style=for-the-badge&logo=MyBatis&logoColor=white"> 
 <img src="https://img.shields.io/badge/Lombok-000000?style=for-the-badge&logo=Lombok&logoColor=white"> 
 <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"> <br/>
-**DB** <br/>
+**Database** <br/>
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <br/>
 **WAS** <br/>
 <img src="https://img.shields.io/badge/tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black"> <br/>
@@ -61,14 +61,14 @@
 
 ### 2. 응급실 조회
 ![image](https://github.com/user-attachments/assets/200f65c4-47d0-4339-9ff1-7c0626c1d1d4)
-- 사용자 위치 기반 실시간 응급실 정보 조회(공공데이터 API사용)
+- 사용자 위치 기반 실시간 응급실 정보 조회(공공데이터 API 사용)
 - 응급실 리스트 클릭 시 응급실 상세정보 OPEN
 - 지역 검색, 병원명 검색
 - 길찾기 기능(자동차 경로)
 
 ### 3. 병원 & 약국 조회
 ![image](https://github.com/user-attachments/assets/5eaf9112-57d9-4e0c-b00d-7720b35a9a09)
-- 사용자 위치 기반 병원(약국) 정보 조회(공공데이터 API사용)
+- 사용자 위치 기반 병원(약국) 정보 조회(공공데이터 API 사용)
 - 병원(약국) 리스트 클릭 시 병원 상세정보 OPEN
 - 지역검색, 병원(약국)명 검색, 병원 종류 검색
 - 길찾기 기능(자동차 경로)
@@ -76,6 +76,15 @@
 - 리뷰 및 평점 기능
 
 ### 4. 건강검진기관 조회
+![image](https://github.com/user-attachments/assets/41d0be91-34d6-4463-b3a8-039478db9e8a)
+- 사용자 위치 기반 검진기관 조회(공공데이터 API 사용)
+- 상세보기 버튼 클릭 시 검진기관 상세정보 OPEN
+- 지역 검색, 기관명 검색, 검진 유형 검색
+- 검진기관 즐겨찾기
+
+
+
+
 
 
 
